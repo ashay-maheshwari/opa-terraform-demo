@@ -9,6 +9,7 @@ package terraform.ec2.policies
 # Import all keywords available in Rego
 import future.keywords
 import input.planned_values.root_module.resources
+import input.resource_changes
 
 # Policies defined by Organization 
 
@@ -22,6 +23,10 @@ import input.planned_values.root_module.resources
 tag_exists if {
     # Check if tags exists in the Terraform plan JSON Input 
     # if tag exists, set this condition to true
+    # Get all tags in a tags variable and check if count of tags is greater than 0 
+    # if that is the case, then condition is true 
+    tags = resource_changes[0]["change"]["after"]["tags"]
+    count(tags) > 0 
 }
 
 registry_verified if {
@@ -49,6 +54,3 @@ allow_ec2_creation if {
     instance_family         # if true AND   
     public_ip               # if true AND 
 }
-
-
-
