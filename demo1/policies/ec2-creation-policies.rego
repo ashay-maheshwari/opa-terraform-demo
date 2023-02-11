@@ -8,7 +8,7 @@ package terraform.ec2.policies
 
 # Import all keywords available in Rego
 import future.keywords
-
+import input.planned_values.root_module.resources
 # Policies defined by Organization 
 
 # ALLOW CONDITION - Allow creation of EC2 instance if all of the below rules are true in the Terraform plan 
@@ -17,15 +17,6 @@ import future.keywords
 #   3. Instance must belong to t2 instance family 
 #   4. EC2 instance must have a public IP Address allocated after creation 
 # REJECT CONDITION - Reject creation of EC2 instance if above conditions are evaluated to false 
-
-# Set variables 
-defualt allow_ec2_creation := false
-
-# save planned_values from terraform plan
-tfplan_planned_values = input.planned_values
-
-# save resource_changes from terraform plan 
-tfplan_resource_changes = input.tfplan_resource_changes
 
 # set variable with approved registry or provider
 tfplan_approved_provider = "registry.terraform.io/hashicorp/aws"
@@ -41,12 +32,13 @@ tag_exists if {
 registry_verified if {
     # Check if the terraform registry used is from verified hashicorp registry 
     # if yes, set this condition to true 
-
+    resources[0]["provider_name"] == tfplan_approved_provider
 }
 
 instance_family if {
     # Check if instance belongs to T2 familiy which is allowed 
     # If yes, set this condition to true 
+    contains(resources[0]["values"]["instance_type"], "t2")
 }
 
 public_ip if {
