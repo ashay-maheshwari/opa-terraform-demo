@@ -7,9 +7,7 @@ resource "aws_instance" "web-server" {
     device_index         = 0
   }
 
-  credit_specification {
-    cpu_credits = "unlimited"
-  }
+ 
 
   tags = {
     department : "engineering", 
