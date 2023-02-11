@@ -20,38 +20,33 @@ import input.resource_changes
 #   4. EC2 instance must have a public IP Address allocated after creation 
 # REJECT CONDITION - Reject creation of EC2 instance if above conditions are evaluated to false 
 
-tag_exists if {
+default allow_ec2_creation := false
+
+allow_ec2_creation if {
+    
+    # Condition 1
+    # check if tags exists in the Terraform plan JSON Input 
     # Check if tags exists in the Terraform plan JSON Input 
     # if tag exists, set this condition to true
     # Get all tags in a tags variable and check if count of tags is greater than 0 
     # if that is the case, then condition is true 
     tags = resource_changes[0]["change"]["after"]["tags"]
     count(tags) > 0 
-}
 
-registry_verified if {
+    # Condition 2
     # Check if the terraform registry used is from verified hashicorp registry 
     # if yes, set this condition to true 
     resources[0]["provider_name"] == "registry.terraform.io/hashicorp/aws"
-}
 
-instance_family if {
+    # Condition 3
     # Check if instance belongs to T2 familiy which is allowed 
     # If yes, set this condition to true 
     contains(resources[0]["values"]["instance_type"], "t2")
-}
 
-public_ip if {
+    # Condition 4
     # Check if instance is assigned with a public ip address 
     # If yes, set this condition to true 
-   input.resource_changes[0]["change"]["after_unknown"]["associate_public_ip_address"] == true
+    input.resource_changes[0]["change"]["after_unknown"]["associate_public_ip_address"] == true
 }
 
-allow_ec2_creation if {
-    # checks if all the conditions are true and performs an AND operation 
-    # as we need all conditions to be true 
-    tag_exists              # if true AND
-    registry_verified       # if true AND
-    instance_family         # if true AND   
-    public_ip               # if true AND 
-}
+
