@@ -19,6 +19,36 @@ import future.keywords
 
 # REJECT CONDITION - Reject creation of EC2 instance if above conditions are evaluated to false 
 
+defualt allow_ec2_creation := false
+
+tag_exists if {
+    # Check if tags exists in the Terraform plan JSON Input 
+    # if tag exists, set this condition to true
+}
+
+registry_verified if {
+    # Check if the terraform registry used is from verified hashicorp registry 
+    # if yes, set this condition to true 
+}
+
+instance_family if {
+    # Check if instance belongs to T2 familiy which is allowed 
+    # If yes, set this condition to true 
+}
+
+public_ip if {
+    # Check if instance is assigned with a public ip address 
+    # If yes, set this condition to true 
+}
+
+allow_ec2_creation if {
+    # checks if all the conditions are true and performs an AND operation 
+    # as we need all conditions to be true 
+    tag_exists              # if true AND
+    registry_verified       # if true AND
+    instance_family         # if true AND   
+    public_ip               # if true AND 
+}
 
 
 
