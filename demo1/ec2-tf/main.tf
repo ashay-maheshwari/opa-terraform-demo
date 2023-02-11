@@ -6,10 +6,8 @@ resource "aws_instance" "web-server" {
     network_interface_id = var.network_interface_id
     device_index         = 0
   }
-
- 
-
-  tags = {
+  
+ tags = {
     department : "engineering", 
     environment: "development"
   }
