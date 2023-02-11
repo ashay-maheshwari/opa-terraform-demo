@@ -19,8 +19,6 @@ import input.planned_values.root_module.resources
 #   4. EC2 instance must have a public IP Address allocated after creation 
 # REJECT CONDITION - Reject creation of EC2 instance if above conditions are evaluated to false 
 
-
-
 tag_exists if {
     # Check if tags exists in the Terraform plan JSON Input 
     # if tag exists, set this condition to true
@@ -35,7 +33,7 @@ registry_verified if {
 instance_family if {
     # Check if instance belongs to T2 familiy which is allowed 
     # If yes, set this condition to true 
-    
+    contains(resources[0]["values"]["instance_type"], "t2")
 }
 public_ip if {
     # Check if instance is assigned with a public ip address 
