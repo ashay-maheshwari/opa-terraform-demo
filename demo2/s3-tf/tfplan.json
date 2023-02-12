@@ -14,7 +14,7 @@
           "values": {
             "acl": "private",
             "bucket_prefix": "dms-bucket-dev",
-            "force_destroy": true,
+            "force_destroy": false,
             "tags": {
               "Costcenter": "Research",
               "Environment": "Dev"
@@ -65,7 +65,7 @@
         "after": {
           "acl": "private",
           "bucket_prefix": "dms-bucket-dev",
-          "force_destroy": true,
+          "force_destroy": false,
           "tags": {
             "Costcenter": "Research",
             "Environment": "Dev"
@@ -161,9 +161,6 @@
             },
             "bucket_prefix": {
               "constant_value": "dms-bucket-dev"
-            },
-            "force_destroy": {
-              "constant_value": true
             },
             "tags": {
               "constant_value": {
