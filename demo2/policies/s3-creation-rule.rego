@@ -26,7 +26,13 @@ allow_s3_creation if {
     resources[0]["values"]["acl"] == "private"
     
     # Condition 2  - S3 versioning must be enabled 
-    resources[1]["values"]["versioning_configuration"][0]["status"] == "Enabled"
+    # check for the index of the resource with s3 bucket versioning details 
+    # provide that index and look for the status 
+
+    some index, item in resources 
+    	item.type == "aws_s3_bucket_versioning"
+        ec2_planned_value_index = index
+    resources[index]["values"]["versioning_configuration"][0]["status"] == "Enabled"  
 }
 
 
