@@ -2,9 +2,9 @@
 # Date - February 11, 2023
 # Overview - Script to automate process of terraform initiation, plan creation and OPA evaluation 
 
-PROJECT_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo1/"
-TFPLAN_JSON_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo1/ec2-tf/"
-POLICIES_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo1/policies/"
+PROJECT_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo2/"
+TFPLAN_JSON_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo2/s3-tf/"
+POLICIES_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo2/policies/"
 
 #Pass the name of policy as first command line argument 
 REGO_POLICY_FILENAME=$1
@@ -25,4 +25,4 @@ terraform show -json tfplan.binary | jq '.' > tfplan.json
 # Step 5 - Execute OPA Evaluation
 echo "\n\n-----------------Executing OPA Evaluation-----------"
 #opa eval --format raw -i ${TFPLAN_JSON_DIR}tfplan.json -d ${POLICIES_DIR}ec2-creation-policies-v1.rego 'data.terraform.ec2.policies' | jq '.'
-opa eval --format raw -i ${TFPLAN_JSON_DIR}tfplan.json -d $POLICIES_DIR$REGO_POLICY_FILENAME 'data.terraform.ec2.policies' | jq '.'
+opa eval --format raw -i ${TFPLAN_JSON_DIR}tfplan.json -d $POLICIES_DIR$REGO_POLICY_FILENAME 'data.terraform.s3.policies' | jq '.'
