@@ -5,10 +5,10 @@
     "root_module": {
       "resources": [
         {
-          "address": "aws_s3_bucket.b",
+          "address": "aws_s3_bucket.dms-bucket",
           "mode": "managed",
           "type": "aws_s3_bucket",
-          "name": "b",
+          "name": "dms-bucket",
           "provider_name": "registry.terraform.io/hashicorp/aws",
           "schema_version": 0,
           "values": {
@@ -46,16 +46,38 @@
             ],
             "website": []
           }
+        },
+        {
+          "address": "aws_s3_bucket_versioning.versioning_demo",
+          "mode": "managed",
+          "type": "aws_s3_bucket_versioning",
+          "name": "versioning_demo",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "expected_bucket_owner": null,
+            "mfa": null,
+            "versioning_configuration": [
+              {
+                "status": "Enabled"
+              }
+            ]
+          },
+          "sensitive_values": {
+            "versioning_configuration": [
+              {}
+            ]
+          }
         }
       ]
     }
   },
   "resource_changes": [
     {
-      "address": "aws_s3_bucket.b",
+      "address": "aws_s3_bucket.dms-bucket",
       "mode": "managed",
       "type": "aws_s3_bucket",
-      "name": "b",
+      "name": "dms-bucket",
       "provider_name": "registry.terraform.io/hashicorp/aws",
       "change": {
         "actions": [
@@ -127,6 +149,43 @@
           "website": []
         }
       }
+    },
+    {
+      "address": "aws_s3_bucket_versioning.versioning_demo",
+      "mode": "managed",
+      "type": "aws_s3_bucket_versioning",
+      "name": "versioning_demo",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "expected_bucket_owner": null,
+          "mfa": null,
+          "versioning_configuration": [
+            {
+              "status": "Enabled"
+            }
+          ]
+        },
+        "after_unknown": {
+          "bucket": true,
+          "id": true,
+          "versioning_configuration": [
+            {
+              "mfa_delete": true
+            }
+          ]
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "versioning_configuration": [
+            {}
+          ]
+        }
+      }
     }
   ],
   "configuration": {
@@ -150,10 +209,10 @@
     "root_module": {
       "resources": [
         {
-          "address": "aws_s3_bucket.b",
+          "address": "aws_s3_bucket.dms-bucket",
           "mode": "managed",
           "type": "aws_s3_bucket",
-          "name": "b",
+          "name": "dms-bucket",
           "provider_config_key": "aws",
           "expressions": {
             "acl": {
@@ -177,8 +236,39 @@
             ]
           },
           "schema_version": 0
+        },
+        {
+          "address": "aws_s3_bucket_versioning.versioning_demo",
+          "mode": "managed",
+          "type": "aws_s3_bucket_versioning",
+          "name": "versioning_demo",
+          "provider_config_key": "aws",
+          "expressions": {
+            "bucket": {
+              "references": [
+                "aws_s3_bucket.dms-bucket.bucket",
+                "aws_s3_bucket.dms-bucket"
+              ]
+            },
+            "versioning_configuration": [
+              {
+                "status": {
+                  "constant_value": "Enabled"
+                }
+              }
+            ]
+          },
+          "schema_version": 0
         }
       ]
     }
-  }
+  },
+  "relevant_attributes": [
+    {
+      "resource": "aws_s3_bucket.dms-bucket",
+      "attribute": [
+        "bucket"
+      ]
+    }
+  ]
 }
