@@ -2,9 +2,9 @@
 # Date - February 11, 2023
 # Overview - Script to automate process of terraform initiation, plan creation and OPA evaluation 
 
-PROJECT_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo2/"
-TFPLAN_JSON_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo2/s3-tf/"
-POLICIES_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo2/policies/"
+PROJECT_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo-s3/"
+TFPLAN_JSON_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo-s3/s3-tf/"
+POLICIES_DIR="/home/osboxes/practice-goes-live/demonstrations/opa-terraform-demo/demo-s3/policies/"
 
 #Pass the name of policy as first command line argument 
 REGO_POLICY_FILENAME=$1
